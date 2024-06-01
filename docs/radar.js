@@ -466,14 +466,20 @@ function radar_visualization(config) {
     // blip text
     if (d.active || config.print_layout) {
       var blip_text = config.print_layout ? d.id : d.label.match(/[a-z]/i);
-      blip.append("text")
+      blip.append("a")
+        .attr("href", function (d, i) {
+          return d.link ? d.link : "#";
+        })
+        .attr("target", function (d, i) {
+          return (d.link && config.links_in_new_tabs) ? "_blank" : null;
+        })
+        .append("text")
         .text(blip_text)
         .attr("y", 3)
         .attr("text-anchor", "middle")
         .style("fill", "#fff")
         .style("font-family", "Arial, Helvetica")
         .style("font-size", function(d) { return blip_text.length > 2 ? "8px" : "9px"; })
-        .style("pointer-events", "none")
         .style("user-select", "none");
     }
   });
